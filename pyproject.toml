@@ -1,0 +1,28 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "jwt"
+authors = [{name = "Alexander O'Donovan-Jones"}]
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+dependencies = [
+    "jwt==1.3.1"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.0.1",
+    "ruff==0.2.2",
+    "flit-core==3.9.0",
+    "build==1.0.3",
+    "pre-commit==3.6.1"
+]
+
+[project.urls]
+Home = "https://github.com/aodj/jwt"
+
+[project.scripts]
+spam-cli = "spam:main_cli"
