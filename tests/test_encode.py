@@ -28,3 +28,12 @@ def test_encode_default_command():
         result.output
         == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE\n"
     )
+
+
+def test_encode_as_header():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["encode", '{"foo": "bar"}', "--as-header"])
+    assert (
+        result.output
+        == "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE\n"
+    )
