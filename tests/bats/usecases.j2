@@ -5,9 +5,11 @@ setup() {
     load '/usr/local/lib/bats-assert/load.bash'
 }
 
+
 {%- for case in cases %}
 @test "{{ case.name }}" {
     run {{ case.command.strip() }}
+    {#- use the tojson filter to quote the payload #}
     {%- if case.output_must_be_quoted %}
     assert_output {{ case.output | tojson }}
     {%- else %}
