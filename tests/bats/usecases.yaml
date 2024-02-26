@@ -1,0 +1,73 @@
+encode-basic:
+- name: encode as default command
+  command: >
+    jwt '{"foo": "bar"}'
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
+  assert_success: true
+- name: encode
+  command: >
+    jwt encode '{"foo": "bar"}'
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
+  assert_success: true
+- name: encode with default algorithm
+  command: >
+    jwt encode '{"foo": "bar"}' --algorithm HS256
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
+  assert_success: true
+- name: encode as default command using pipe
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt"
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
+  assert_success: true
+- name: encode using pipe
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode"
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
+  assert_success: true
+- name: encode with default algorithm using pipe
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm HS256"
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
+  assert_success: true
+
+encode-as-header:
+- name: encode as header, with encode as a default command
+  command: >
+    jwt '{"foo": "bar"}' --as-header
+  output: "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE"
+  output_must_be_quoted: true
+  assert_success: true
+- name: encode as header, with payload
+  command: >
+    jwt encode '{"foo": "bar"}' --as-header
+  output: "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE"
+  output_must_be_quoted: true
+  assert_success: true
+- name: encode as header, with piped payload
+  command: >
+     bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --as-header"
+  output: "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE"
+  output_must_be_quoted: true
+  assert_success: true
+
+encode-using-secret:
+- name: encode with secret, using encode as a default command
+  command: >
+     jwt '{"foo": "bar"}' --secret foo
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.txbhRxOhcJ-ZezxxAAsTalseZx-yUA_6FWW9q7MFSe4
+  assert_success: true
+- name: encode with secret and payload
+  command: >
+     jwt encode '{"foo": "bar"}' --secret foo
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.txbhRxOhcJ-ZezxxAAsTalseZx-yUA_6FWW9q7MFSe4
+  assert_success: true
+- name: encode with secret, using default command and piped payload
+  command: >
+     bash -c "echo '{\"foo\": \"bar\"}' | jwt --secret foo"
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.txbhRxOhcJ-ZezxxAAsTalseZx-yUA_6FWW9q7MFSe4
+  assert_success: true
+- name: encode with secret, using piped payload
+  command: >
+     bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --secret foo"
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.txbhRxOhcJ-ZezxxAAsTalseZx-yUA_6FWW9q7MFSe4
+  assert_success: true

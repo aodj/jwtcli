@@ -10,8 +10,10 @@ help:
 SHELL := /bin/bash
 APP_NAME=jwt
 
-setup: ## Setup uv and venv
-	brew install uv
+setup: ## Setup uv, bats, and venv
+	brew install uv bats-core
+	brew tap kaos/shell
+	brew install bats-assert
 	uv venv --seed
 
 setup-requirements: ## Install requirements for the project
@@ -23,5 +25,8 @@ setup-pre-commit: ## Setup pre-commit and hooks
 format: ## Format the code
 	ruff format src/ tests/
 
-test: ## Run pytest
+test: ## Run tests
 	pytest -vv --capture=no
+	rm tests/bats/*.bats
+	python tests/bats/build.py
+	bats tests/bats/

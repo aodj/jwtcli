@@ -1,4 +1,5 @@
 import json
+import sys
 
 import click
 from click_default_group import DefaultGroup
@@ -15,8 +16,17 @@ def cli():
     pass
 
 
+def check_for_pipe(ctx, param, value):
+    # if we have a value, use it
+    if value:
+        return value
+    # check to see if there's a piped in value
+    if value is None and not sys.stdin.isatty():
+        return sys.stdin.read().strip()
+
+
 @cli.command()
-@click.argument("payload")
+@click.argument("payload", callback=check_for_pipe, required=False)
 @click.option(
     "-a",
     "--algorithm",

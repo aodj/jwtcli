@@ -1,0 +1,20 @@
+#!/usr/bin/env bats
+
+setup() {
+    load '/usr/local/lib/bats-support/load.bash'
+    load '/usr/local/lib/bats-assert/load.bash'
+}
+
+{%- for case in cases %}
+@test "{{ case.name }}" {
+    run {{ case.command.strip() }}
+    {%- if case.output_must_be_quoted %}
+    assert_output {{ case.output | tojson }}
+    {%- else %}
+    assert_output {{ case.output }}
+    {%- endif %}
+    {%- if case.assert_success %}
+    assert_success
+    {%- endif %}
+}
+{% endfor %}

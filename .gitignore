@@ -2,5 +2,8 @@
 .pytest_cache/
 .ruff_cache/
 .vscode/
+
 requirements.txt
 requirements-dev.txt
+
+tests/bats/*.bats

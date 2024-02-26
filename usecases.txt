@@ -1,3 +1,5 @@
+# Basic encoding
+
 $ jwt $payload
 $ jwt encode $payload
 $ jwt encode $payload --algorithm HS256
@@ -6,10 +8,14 @@ $ echo $payload | jwt encode
 $ echo $payload | jwt encode --algorithm HS256
 > token1
 
+# Encoding as a HTTP header
+
 $ jwt $payload --as-header
 $ jwt encode $payload --as-header
 $ echo $payload | jwt --as-header
 > 'Authorization: Bearer $token1'
+
+# Encoding with a secret
 
 $ jwt $payload --secret foo
 $ jwt encode $payload --secret foo
@@ -17,23 +23,27 @@ $ echo $payload | jwt --secret foo
 $ echo $payload | jwt encode --secret foo
 > token2
 
-$ jwt --algorithm HS512 --secret foo
-$ jwt encode --algorithm HS512 --secret foo
-$ echo $payload | jwt encode --algorithm HS512 --secret foo
-> token3
+# Encoding using a private key
 
 $ echo $payload | jwt encode --algorithm RS256 --private-key "-----BEGIN PRIVATE KEY-----\nMIGEAgEAMBAGByqGSM49AgEGBS..."
 $ echo $payload | jwt encode --algorithm RS256 --private-key "$(< $path)"
 $ echo $payload | jwt encode --algorithm RS256 --private-key-file $path
-> token4
+> token3
+
+# Basic decoding
 
 $ echo $token | jwt decode
 $ echo $token | jwt decode --algorithm HS256
 > payload1
 
+# Decoding using a secret and algorithm
+
 $ echo $token | jwt decode --secret foo --algorithm HS256
 > payload2
 
+# Decoding using a public key (after public key encryption)
+
+$ echo $payload | jwt encode --algorithm RS256 --private-key-file $path | jwt decode --algorithm RS256 --public-key-file $path
 $ echo $token | jwt decode --algorithm RS256 --public-key "-----BEGIN PUBLIC KEY-----\nMHYwEAYHKoZIzj0CAQYFK4EEAC..."
 $ echo $token | jwt decode --algorithm RS256 --public-key "$(< $path)"
 $ echo $token | jwt decode --algorithm RS256 --public-key-file $path
