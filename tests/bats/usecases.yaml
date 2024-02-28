@@ -186,3 +186,11 @@ decode-using-public-key:
   output: {'foo': 'bar'}
   output_must_be_quoted: true
   assert_success: true
+
+encode-decode-key-based=roundtrip:
+- name: encode payload then decode roundtrip with RSA keypair
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm RS256 --private-key-file tests/bats/keys/rsa-keypair-private.key | jwt decode --algorithm RS256 --public-key-file tests/bats/keys/rsa-keypair-public.crt"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
