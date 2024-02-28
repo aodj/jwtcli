@@ -1,6 +1,9 @@
 import json
 import sys
-from cryptography.hazmat.primitives.serialization import load_pem_private_key
+from cryptography.hazmat.primitives.serialization import (
+    load_pem_private_key,
+    load_pem_public_key,
+)
 from typing import TextIO
 
 import click
@@ -96,15 +99,21 @@ def encode(
 @click.option("-s", "--secret", type=click.STRING, default="", required=False)
 @click.option("-pk", "--public-key", type=click.STRING, default="", required=False)
 @click.option("-pkf", "--public-key-file", type=click.File(), required=False)
-@click.option("-p", "--password", type=click.STRING, default=None, required=False)
 def decode(
     value: str,
     algorithm: str,
     secret: str,
     public_key: str,
     public_key_file: TextIO,
-    password: str | None,
 ):
+    if algorithm in ("RS256"):
+        assert public_key or public_key_file
+
+        if public_key:
+            secret = load_pem_public_key(public_key.encode().replace(b"\\n", b"\n"))
+        elif public_key_file:
+            secret = load_pem_public_key(public_key_file.read().encode())
+
     click.echo(
         jwt.decode(
             jwt=value,

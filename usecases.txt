@@ -45,8 +45,8 @@ $ echo $token | jwt decode --secret foo --algorithm HS256
 
 # Decoding using a public key (after public key encryption)
 
-$ echo $payload | jwt encode --algorithm RS256 --private-key-file $path | jwt decode --algorithm RS256 --public-key-file $path
 $ echo $token | jwt decode --algorithm RS256 --public-key "-----BEGIN PUBLIC KEY-----\nMHYwEAYHKoZIzj0CAQYFK4EEAC..."
 $ echo $token | jwt decode --algorithm RS256 --public-key "$(< $path)"
 $ echo $token | jwt decode --algorithm RS256 --public-key-file $path
+$ echo $payload | jwt encode --algorithm RS256 --private-key-file $path | jwt decode --algorithm RS256 --public-key-file $path
 > payload3

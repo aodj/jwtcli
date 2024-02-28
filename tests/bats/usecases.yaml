@@ -149,4 +149,40 @@ decode-using-secret:
   output_must_be_quoted: true
   assert_success: true
 
-# decode-using-public-key:
+decode-using-public-key:
+- name: decode using public key string
+  command: >
+    jwt decode eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ --algorithm RS256 --public-key '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlbmdEVvvxCUU5zBR89Ba\nTIWEVlZeTIFu0VQ0iK7k1ZQ4lARUzNDL68XsKADWuZeo9qnwmwhyuxuHBmhzov3i\nGgpv8WdVJtXnVLxRKcbmsuaGmeEwDKuS6rYrwaM7dJ683YX9d8pgEIiBLD40dfJ8\nq89Hdr3kd4mfb/ag8flmGBIivnfvt++BF1qZQlSLatwIk+jKxPdWjhER9H1+aUfq\n9RrpaVj6InO1Hvao6cwXbzcRKm8wmcb5l/B05ToGF13dYFgIFOeNGP45xaCRPSHI\nWSoHKDfJPqQZ2hMn6Asru4Pd6HHzXjK8P3yr3Xe3Yixg0r1TF6qCVKgFs9tU9ddg\n6wIDAQAB\n-----END PUBLIC KEY-----'
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: decode using public key string and piped in payload
+  command: >
+    bash -c "echo eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ | jwt decode --algorithm RS256 --public-key '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlbmdEVvvxCUU5zBR89Ba\nTIWEVlZeTIFu0VQ0iK7k1ZQ4lARUzNDL68XsKADWuZeo9qnwmwhyuxuHBmhzov3i\nGgpv8WdVJtXnVLxRKcbmsuaGmeEwDKuS6rYrwaM7dJ683YX9d8pgEIiBLD40dfJ8\nq89Hdr3kd4mfb/ag8flmGBIivnfvt++BF1qZQlSLatwIk+jKxPdWjhER9H1+aUfq\n9RrpaVj6InO1Hvao6cwXbzcRKm8wmcb5l/B05ToGF13dYFgIFOeNGP45xaCRPSHI\nWSoHKDfJPqQZ2hMn6Asru4Pd6HHzXjK8P3yr3Xe3Yixg0r1TF6qCVKgFs9tU9ddg\n6wIDAQAB\n-----END PUBLIC KEY-----'"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: decode using public key file piped in
+  command: >
+    jwt decode eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ --algorithm RS256 --public-key "$(< tests/bats/keys/rsa-keypair-public.crt)"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: decode using public key file contents and payload piped in
+  command: >
+    bash -c "echo eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ | jwt decode --algorithm RS256 --public-key \"$(< tests/bats/keys/rsa-keypair-public.crt)\""
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: decode using public-key-file
+  command: >
+    jwt decode eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ --algorithm RS256 --public-key-file tests/bats/keys/rsa-keypair-public.crt
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: decode using public-key-file and piped in payload
+  command: >
+    bash -c "echo eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ | jwt decode --algorithm RS256 --public-key-file tests/bats/keys/rsa-keypair-public.crt"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
