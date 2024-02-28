@@ -32,7 +32,9 @@ def check_for_pipe(ctx, param, value):
 @click.option(
     "-a",
     "--algorithm",
-    type=click.Choice(jwt.algorithms.get_default_algorithms().keys()),
+    type=click.Choice(
+        jwt.algorithms.get_default_algorithms().keys(), case_sensitive=False
+    ),
     default="HS256",
     show_default=True,
 )
@@ -78,3 +80,35 @@ def encode(
         click.echo(f"Authorization: Bearer {token}")
     else:
         click.echo(token)
+
+
+@cli.command()
+@click.argument("value", callback=check_for_pipe, required=False)
+@click.option(
+    "-a",
+    "--algorithm",
+    type=click.Choice(
+        jwt.algorithms.get_default_algorithms().keys(), case_sensitive=False
+    ),
+    default="HS256",
+    show_default=True,
+)
+@click.option("-s", "--secret", type=click.STRING, default="", required=False)
+@click.option("-pk", "--public-key", type=click.STRING, default="", required=False)
+@click.option("-pkf", "--public-key-file", type=click.File(), required=False)
+@click.option("-p", "--password", type=click.STRING, default=None, required=False)
+def decode(
+    value: str,
+    algorithm: str,
+    secret: str,
+    public_key: str,
+    public_key_file: TextIO,
+    password: str | None,
+):
+    click.echo(
+        jwt.decode(
+            jwt=value,
+            key=secret,
+            algorithms=[algorithm],
+        )
+    )

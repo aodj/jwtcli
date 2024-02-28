@@ -128,3 +128,23 @@ decode-basic:
   output: {'foo': 'bar'}
   output_must_be_quoted: true
   assert_success: true
+
+decode-using-secret:
+- name: decode with secret
+  command: >
+     jwt decode eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.txbhRxOhcJ-ZezxxAAsTalseZx-yUA_6FWW9q7MFSe4 --secret foo
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: decode with secret and algorithm
+  command: >
+     jwt decode eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.txbhRxOhcJ-ZezxxAAsTalseZx-yUA_6FWW9q7MFSe4 --secret foo --algorithm hs256
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: decode using piped payload and secret
+  command: >
+    bash -c "echo eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.txbhRxOhcJ-ZezxxAAsTalseZx-yUA_6FWW9q7MFSe4 | jwt decode --secret foo"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
