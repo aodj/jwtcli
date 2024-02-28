@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Setup requirements
 # Expected to be run from the root, as ./scripts/setup-requirements.sh

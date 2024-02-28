@@ -25,8 +25,24 @@ setup-pre-commit: ## Setup pre-commit and hooks
 format: ## Format the code
 	ruff format src/ tests/
 
-test: ## Run tests
-	pytest -vv --capture=no
-	rm tests/bats/*.bats
+template-bats: ## Render the bats templates
+	@./scripts/clean-bats.sh
 	python tests/bats/build.py
+
+test: template-bats ## Run tests
+	pytest -vv --capture=no
 	bats tests/bats/
+
+BATS_TARGET := *.bats
+ifneq ($(filter-out setup setup-requirements setup-pre-commit format template-bats test bats,$(MAKECMDGOALS)), )
+BATS_TARGET := $(filter-out setup setup-requirements setup-pre-commit format template-bats test bats,$(MAKECMDGOALS)).bats
+endif
+
+# run all bats tests using 'make bats'
+# or a specific group using the group name 'make bats encode-using-secret'
+# group names are given in tests/bats/usecases.yaml
+bats: template-bats ## Run specific group of or all bats tests
+	bats tests/bats/$(BATS_TARGET)
+
+%:
+	@:

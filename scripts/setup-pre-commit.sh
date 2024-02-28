@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Setup pre-commit.
 # Expected to be run from the root, as ./scripts/setup-pre-commit.sh

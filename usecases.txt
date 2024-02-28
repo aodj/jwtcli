@@ -32,12 +32,14 @@ $ echo $payload | jwt encode --algorithm RS256 --private-key-file $path
 
 # Basic decoding
 
+$ jwt decode $token
 $ echo $token | jwt decode
 $ echo $token | jwt decode --algorithm HS256
 > payload1
 
 # Decoding using a secret and algorithm
 
+$ jwt decode $token --secret foo --algorithm HS256
 $ echo $token | jwt decode --secret foo --algorithm HS256
 > payload2
 

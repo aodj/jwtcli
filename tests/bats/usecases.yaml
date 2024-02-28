@@ -4,14 +4,19 @@ encode-basic:
     jwt '{"foo": "bar"}'
   output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
   assert_success: true
-- name: encode
+- name: encode payload
   command: >
     jwt encode '{"foo": "bar"}'
   output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
   assert_success: true
-- name: encode with default algorithm
+- name: encode with default algorithm (uppercase)
   command: >
     jwt encode '{"foo": "bar"}' --algorithm HS256
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
+  assert_success: true
+- name: encode with default algorithm (lowercase)
+  command: >
+    jwt encode '{"foo": "bar"}' --algorithm hs256
   output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
   assert_success: true
 - name: encode as default command using pipe
@@ -19,7 +24,7 @@ encode-basic:
     bash -c "echo '{\"foo\": \"bar\"}' | jwt"
   output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
   assert_success: true
-- name: encode using pipe
+- name: encode using piped payload
   command: >
     bash -c "echo '{\"foo\": \"bar\"}' | jwt encode"
   output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
@@ -102,4 +107,24 @@ encode-using-private-key:
   command: >
     bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm RS256 --private-key-file tests/bats/keys/testkey_rsa.priv"
   output: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.A_KO_-3GZ7sklBgk5QAwDCZJZhd97Z7p8l3cICN1f3ba-MkKEA9HO_oh_WZbtb0Tia0r_dAWYszqj8BDF3wjyApBCstKycFU8cz5VVHt_iLRpzU_yoQFiK7SXN0hYuZRW-GfRsb8bAc1OFqc95Xl_5tfdp8AoGufOq526C8ODLat0tbK0nJd-2wFf2B2JPnZmSwJ6n6BWBfq_Wkyn9k81608zaN5dk2sVdiMeMu0CTg6cr8r3-fZZn-0EruMWB34g4wegM-alBbRCidSDLi_uw2rUOJqXyKbP10lMBn-WBzJwx0U0615LuljBnKQfh8evyFi5Q4gLeiMMItVQEGlSw
+  assert_success: true
+
+decode-basic:
+- name: decode payload
+  command: >
+    jwt decode eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: decode payload with default algorithm
+  command: >
+    jwt decode eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE --algorithm HS256
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: decode using piped payload
+  command: >
+    bash -c "echo eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE | jwt decode"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
   assert_success: true
