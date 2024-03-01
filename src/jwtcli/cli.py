@@ -30,6 +30,15 @@ def check_for_pipe(ctx, param, value):
         return sys.stdin.read().strip()
 
 
+def convert_key_strings_to_bytes(input: str) -> bytes:
+    # We need to convert the input to the correct format:
+    # a) It needs to be bytes and not a string, hence the `.encode()`
+    # b) We need to ensure line breaks are correctly handled.
+    #    The input given is 'foo\nbar' which when encoded becomes
+    #    b'foo\\nbar' so the replace is to correct for that.
+    return input.encode().replace(b"\\n", b"\n")
+
+
 @cli.command()
 @click.argument("payload", callback=check_for_pipe, required=False)
 @click.option(
@@ -58,15 +67,10 @@ def encode(
     if algorithm in ("RS256"):
         # need to ensure we have the necessary arguments
         assert private_key or private_key_file
-        # We need to convert the input to the correct format:
-        # a) It needs to be bytes and not a string, hence the `.encode()`
-        # b) We need to ensure line breaks are correctly handled.
-        #    The input given is 'foo\nbar' which when encoded becomes
-        #    b'foo\\nbar' so the replace is to correct for that.
-        # breakpoint()
+
         if private_key:
             secret = load_pem_private_key(
-                private_key.encode().replace(b"\\n", b"\n"), password=password
+                convert_key_strings_to_bytes(private_key), password=password
             )
         elif private_key_file:
             secret = load_pem_private_key(
@@ -110,7 +114,7 @@ def decode(
         assert public_key or public_key_file
 
         if public_key:
-            secret = load_pem_public_key(public_key.encode().replace(b"\\n", b"\n"))
+            secret = load_pem_public_key(convert_key_strings_to_bytes(public_key))
         elif public_key_file:
             secret = load_pem_public_key(public_key_file.read().encode())
 
