@@ -296,3 +296,25 @@ algorithm-exhaustive-tests:
   output: {'foo': 'bar'}
   output_must_be_quoted: true
   assert_success: true
+- name: EdDSA (Ed25519) encode
+  command: >
+    jwt encode '{"foo": "bar"}' --algorithm eddsa --private-key-file tests/bats/keys/ed25519-private.key
+  output: eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.bM3d9F9JYGOXKvN1JyKrWCpbr8XfIVYm6NlK8M91961pdMV2mSECGpauFhrN_Cso7lzbrLWpz9-5k8MrKf2LBw
+  assert_success: true
+- name: EdDSA (Ed25519) decode
+  command: >
+    jwt decode eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.bM3d9F9JYGOXKvN1JyKrWCpbr8XfIVYm6NlK8M91961pdMV2mSECGpauFhrN_Cso7lzbrLWpz9-5k8MrKf2LBw --algorithm eddsa --public-key-file tests/bats/keys/ed25519-public.crt
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: EdDSA (Ed448) encode
+  command: >
+    jwt encode '{"foo": "bar"}' --algorithm eddsa --private-key-file tests/bats/keys/ed448-private.key
+  output: eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.8FnZJ2OkGGoB7HZvdkkKmf4n0B694igUXcnpwa0PWWT3XPb6b_Si0xH3kFonNa4y1nVhfP5QssIAZK0HrgVi3sjXSRgl1huXAVCsJlwLgqlPaTwlGgNxmV26j90m8meXIfBt7qPq4pw13YC-vO1nfzAA
+  assert_success: true
+- name: EdDSA (Ed448) decode
+  command: >
+    jwt decode eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.8FnZJ2OkGGoB7HZvdkkKmf4n0B694igUXcnpwa0PWWT3XPb6b_Si0xH3kFonNa4y1nVhfP5QssIAZK0HrgVi3sjXSRgl1huXAVCsJlwLgqlPaTwlGgNxmV26j90m8meXIfBt7qPq4pw13YC-vO1nfzAA --algorithm eddsa --public-key-file tests/bats/keys/ed448-public.crt
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true

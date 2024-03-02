@@ -47,6 +47,19 @@ openssl ec -in tests/bats/keys/ps384-private.key -pubout -out tests/bats/keys/ps
 
 
 # ps512
-openssl genpkey -algorithm rsa-pss -pkeyopt rsa_keygen_bits:2048 -pkeyopt rsa_pss_keygen_md:sha512 -pkeyopt rsa_pss_keygen_mgf1_md:sha512 -pkeyopt rsa_pss_keygen_saltlen:32 -out tests/bats/keys/ps512.pem
+openssl genpkey -algorithm rsa-pss \
+    -pkeyopt rsa_keygen_bits:2048 \
+    -pkeyopt rsa_pss_keygen_md:sha512 \
+    -pkeyopt rsa_pss_keygen_mgf1_md:sha512 \
+    -pkeyopt rsa_pss_keygen_saltlen:32 \
+    -out tests/bats/keys/ps512.pem
 openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in tests/bats/keys/ps512.pem -out tests/bats/keys/ps512-private.key
 openssl ec -in tests/bats/keys/ps512-private.key -pubout -out tests/bats/keys/ps512-public.crt
+
+
+# Ed25519 (EdDSA)
+python make_ed25519_keys.py
+
+
+# Ed448 (EdDSA)
+python make_ed448_keys.py

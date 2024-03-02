@@ -39,6 +39,21 @@ def convert_key_strings_to_bytes(input: str) -> bytes:
     return input.encode().replace(b"\\n", b"\n")
 
 
+key_based_algorithms = (
+    "rs256",
+    "rs384",
+    "rs512",
+    "es256",
+    "es256k",
+    "es384",
+    "es512",
+    "ps256",
+    "ps384",
+    "ps512",
+    "eddsa",
+)
+
+
 @cli.command()
 @click.argument("payload", callback=check_for_pipe, required=False)
 @click.option(
@@ -64,18 +79,7 @@ def encode(
     private_key_file: TextIO,
     password: str | None,
 ):
-    if algorithm in (
-        "RS256",
-        "RS384",
-        "RS512",
-        "ES256",
-        "ES256K",
-        "ES384",
-        "ES512",
-        "PS256",
-        "PS384",
-        "PS512",
-    ):
+    if algorithm.lower() in key_based_algorithms:
         # need to ensure we have the necessary arguments
         assert private_key or private_key_file
 
@@ -121,18 +125,7 @@ def decode(
     public_key: str,
     public_key_file: TextIO,
 ):
-    if algorithm in (
-        "RS256",
-        "RS384",
-        "RS512",
-        "ES256",
-        "ES256K",
-        "ES384",
-        "ES512",
-        "PS256",
-        "PS384",
-        "PS512",
-    ):
+    if algorithm.lower() in key_based_algorithms:
         assert public_key or public_key_file
 
         if public_key:
