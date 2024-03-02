@@ -90,22 +90,22 @@ encode-using-private-key:
   assert_success: true
 - name: encode using private key file piped in
   command: >
-    jwt encode '{"foo": "bar"}' --algorithm RS256 --private-key "$(< tests/bats/keys/rsa-keypair-private.key)"
+    jwt encode '{"foo": "bar"}' --algorithm RS256 --private-key "$(< tests/bats/keys/rsa-private.key)"
   output: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ
   assert_success: true
 - name: encode using private key file contents and payload piped in
   command: >
-    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm RS256 --private-key \"$(< tests/bats/keys/rsa-keypair-private.key)\""
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm RS256 --private-key \"$(< tests/bats/keys/rsa-private.key)\""
   output: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ
   assert_success: true
 - name: encode using private-key-file
   command: >
-    jwt encode '{"foo": "bar"}' --algorithm RS256 --private-key-file tests/bats/keys/rsa-keypair-private.key
+    jwt encode '{"foo": "bar"}' --algorithm RS256 --private-key-file tests/bats/keys/rsa-private.key
   output: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ
   assert_success: true
 - name: encode using private-key-file and piped in payload
   command: >
-    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm RS256 --private-key-file tests/bats/keys/rsa-keypair-private.key"
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm RS256 --private-key-file tests/bats/keys/rsa-private.key"
   output: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ
   assert_success: true
 
@@ -164,33 +164,135 @@ decode-using-public-key:
   assert_success: true
 - name: decode using public key file piped in
   command: >
-    jwt decode eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ --algorithm RS256 --public-key "$(< tests/bats/keys/rsa-keypair-public.crt)"
+    jwt decode eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ --algorithm RS256 --public-key "$(< tests/bats/keys/rsa-public.crt)"
   output: {'foo': 'bar'}
   output_must_be_quoted: true
   assert_success: true
 - name: decode using public key file contents and payload piped in
   command: >
-    bash -c "echo eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ | jwt decode --algorithm RS256 --public-key \"$(< tests/bats/keys/rsa-keypair-public.crt)\""
+    bash -c "echo eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ | jwt decode --algorithm RS256 --public-key \"$(< tests/bats/keys/rsa-public.crt)\""
   output: {'foo': 'bar'}
   output_must_be_quoted: true
   assert_success: true
 - name: decode using public-key-file
   command: >
-    jwt decode eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ --algorithm RS256 --public-key-file tests/bats/keys/rsa-keypair-public.crt
+    jwt decode eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ --algorithm RS256 --public-key-file tests/bats/keys/rsa-public.crt
   output: {'foo': 'bar'}
   output_must_be_quoted: true
   assert_success: true
 - name: decode using public-key-file and piped in payload
   command: >
-    bash -c "echo eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ | jwt decode --algorithm RS256 --public-key-file tests/bats/keys/rsa-keypair-public.crt"
+    bash -c "echo eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ | jwt decode --algorithm RS256 --public-key-file tests/bats/keys/rsa-public.crt"
   output: {'foo': 'bar'}
   output_must_be_quoted: true
   assert_success: true
 
-encode-decode-key-based=roundtrip:
-- name: encode payload then decode roundtrip with RSA keypair
+algorithm-exhaustive-tests:
+- name: HS256 encode
   command: >
-    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm RS256 --private-key-file tests/bats/keys/rsa-keypair-private.key | jwt decode --algorithm RS256 --public-key-file tests/bats/keys/rsa-keypair-public.crt"
+    jwt encode '{"foo": "bar"}' --algorithm HS256
+  output: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE
+  assert_success: true
+- name: HS256 decode
+  command: >
+    jwt decode eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ._NaFhGu8tCCgBKksGBA6ADwRdKx3e9GES_KyF4A5phE --algorithm HS256
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: HS384 encode
+  command: >
+    jwt encode '{"foo": "bar"}' --algorithm HS384
+  output: eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Z0nYGd9r7LQvo4qJuxCYd7l0AvC0xWgFQ0g4DmlF9aGBTl2na4TtxGnBxEhtlzW-
+  assert_success: true
+- name: HS384 decode
+  command: >
+    jwt decode eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Z0nYGd9r7LQvo4qJuxCYd7l0AvC0xWgFQ0g4DmlF9aGBTl2na4TtxGnBxEhtlzW- --algorithm HS384
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: HS512 encode
+  command: >
+    jwt encode '{"foo": "bar"}' --algorithm HS512
+  output: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.f-vJZxPTov9Et3gBHtYpygMfuzinYRB4Ywz48_JQIX7VQBn4StUbbDo7DIoFXUWUoglgRGszxmZTQgMSwupgng
+  assert_success: true
+- name: HS512 decode
+  command: >
+    jwt decode eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.f-vJZxPTov9Et3gBHtYpygMfuzinYRB4Ywz48_JQIX7VQBn4StUbbDo7DIoFXUWUoglgRGszxmZTQgMSwupgng --algorithm HS512
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: ES256 roundtrip
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm ES256 --private-key-file tests/bats/keys/es256-private.key | jwt decode --algorithm ES256 --public-key-file tests/bats/keys/es256-public.crt"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: ES256K roundtrip
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm ES256K --private-key-file tests/bats/keys/es256k-private.key | jwt decode --algorithm ES256K --public-key-file tests/bats/keys/es256k-public.crt"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: ES384 roundtrip
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm ES384 --private-key-file tests/bats/keys/es384-private.key | jwt decode --algorithm ES384 --public-key-file tests/bats/keys/es384-public.crt"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: ES512 roundtrip
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm ES512 --private-key-file tests/bats/keys/es512-private.key | jwt decode --algorithm ES512 --public-key-file tests/bats/keys/es512-public.crt"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: RS256 encode
+  command: >
+    jwt encode '{"foo": "bar"}' --algorithm RS256 --private-key-file tests/bats/keys/rsa-private.key
+  output: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ
+  assert_success: true
+- name: RS256 decode
+  command: >
+    jwt decode eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.LWlH362MuiQY9Q83yslsRAwjBAuPQJFBiEHQu6s8Xx9DOSL_smxzfxnDo197q9Z95aX6lIA5D97iD8vD-ngBM_K0vpfGDurzvtanxhONIQDTjxHuhZXZiI2qxLNOweWtIEt9tbfGl9m45Y7AirEBPRKl0IqI0Q1V72ZYAAv0WP-f4AJI_l2pqEbOeY2cAYvuMo5c409jdtHQFnT6j0LbTXg3H_zVZjH__kP1TxSzQg1yJyfukZrK25C86jKPfOUkUatepJHCVbuUScf7oMrWgnSvkWyBUZH_IfNy7xSipgnk4qF3IybxtdTM0f_qctdr6dm3rUtPZsOO6Pu_15vyGQ --algorithm RS256 --public-key-file tests/bats/keys/rsa-public.crt
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: RS384 encode
+  command: >
+    jwt encode '{"foo": "bar"}' --algorithm RS384 --private-key-file tests/bats/keys/rsa-private.key
+  output: eyJhbGciOiJSUzM4NCIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.en53W6evoBxu_0BJ-1Ru-USffqf3u2F2C5sQT8sK8Zbv-2iZK6i6HtDHyR9-LUq8Rp2NTdjb49GSIftjg2oSwWiSmrEKEPu7GsQb4Rr2Wv2zTO57zumyZGhAkG2PYAvsMJybGldimAAbNOa17uTr8zO78wx8DrzIh-FIscRZsShJaZZI2NOZSX126Zp07zgmhjE7lXPrZGJRwjWf94z--B-ZasTb1vzM2zm4wF42JW-i5leYfYtodPkHRQc4k8EZzUPK6k7PLEvXjchNHVfAPjJJ1q0dUEaYh9z2O_dlfuaUr0zekvShV1zcWmp41IydHNHFm6IphEF2LdtV9ucxrw
+  assert_success: true
+- name: RS384 decode
+  command: >
+    jwt decode eyJhbGciOiJSUzM4NCIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.en53W6evoBxu_0BJ-1Ru-USffqf3u2F2C5sQT8sK8Zbv-2iZK6i6HtDHyR9-LUq8Rp2NTdjb49GSIftjg2oSwWiSmrEKEPu7GsQb4Rr2Wv2zTO57zumyZGhAkG2PYAvsMJybGldimAAbNOa17uTr8zO78wx8DrzIh-FIscRZsShJaZZI2NOZSX126Zp07zgmhjE7lXPrZGJRwjWf94z--B-ZasTb1vzM2zm4wF42JW-i5leYfYtodPkHRQc4k8EZzUPK6k7PLEvXjchNHVfAPjJJ1q0dUEaYh9z2O_dlfuaUr0zekvShV1zcWmp41IydHNHFm6IphEF2LdtV9ucxrw --algorithm RS384 --public-key-file tests/bats/keys/rsa-public.crt
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: RS512 encode
+  command: >
+    jwt encode '{"foo": "bar"}' --algorithm RS512 --private-key-file tests/bats/keys/rsa-private.key
+  output: eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Lszw29YD70mHivA89ZS8PTqVh7zaodoYoXn0D_YVHdtdGy-XXUvh9-FKHqlPPiSr48pLau2qsSImYWgxB5UEUdqd_3RuUJVJhxRb3wjWvv-F2UjumyE_s7bddXQrjPId8TCRNSkbu4mVdA4rQ_oByBfN9CZuy_WY1SOFiyPURYgNZdrQl6oF8U5nPQLj0Gsj3Byyq1V_wWoE-r874F2KruP7YZdEFmayKd_NgzLaNU4-582sWKet79dWpuLceFwIlwOmMfI63_AbuZoJe9iKLtlH-S0iTMhSucRsQpV1es-0Rni8LmaRltIv8TzIi9COg7XT9zVxaGDjBwmG25LTyg
+  assert_success: true
+- name: RS512 decode
+  command: >
+    jwt decode eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Lszw29YD70mHivA89ZS8PTqVh7zaodoYoXn0D_YVHdtdGy-XXUvh9-FKHqlPPiSr48pLau2qsSImYWgxB5UEUdqd_3RuUJVJhxRb3wjWvv-F2UjumyE_s7bddXQrjPId8TCRNSkbu4mVdA4rQ_oByBfN9CZuy_WY1SOFiyPURYgNZdrQl6oF8U5nPQLj0Gsj3Byyq1V_wWoE-r874F2KruP7YZdEFmayKd_NgzLaNU4-582sWKet79dWpuLceFwIlwOmMfI63_AbuZoJe9iKLtlH-S0iTMhSucRsQpV1es-0Rni8LmaRltIv8TzIi9COg7XT9zVxaGDjBwmG25LTyg --algorithm RS512 --public-key-file tests/bats/keys/rsa-public.crt
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: PS256 roundtrip
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm PS256 --private-key-file tests/bats/keys/ps256-private.key | jwt decode --algorithm PS256 --public-key-file tests/bats/keys/ps256-public.crt"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: PS384 roundtrip
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm PS384 --private-key-file tests/bats/keys/ps384-private.key | jwt decode --algorithm PS384 --public-key-file tests/bats/keys/ps384-public.crt"
+  output: {'foo': 'bar'}
+  output_must_be_quoted: true
+  assert_success: true
+- name: PS512 roundtrip
+  command: >
+    bash -c "echo '{\"foo\": \"bar\"}' | jwt encode --algorithm PS512 --private-key-file tests/bats/keys/ps512-private.key | jwt decode --algorithm PS512 --public-key-file tests/bats/keys/ps512-public.crt"
   output: {'foo': 'bar'}
   output_must_be_quoted: true
   assert_success: true

@@ -64,7 +64,18 @@ def encode(
     private_key_file: TextIO,
     password: str | None,
 ):
-    if algorithm in ("RS256"):
+    if algorithm in (
+        "RS256",
+        "RS384",
+        "RS512",
+        "ES256",
+        "ES256K",
+        "ES384",
+        "ES512",
+        "PS256",
+        "PS384",
+        "PS512",
+    ):
         # need to ensure we have the necessary arguments
         assert private_key or private_key_file
 
@@ -110,7 +121,18 @@ def decode(
     public_key: str,
     public_key_file: TextIO,
 ):
-    if algorithm in ("RS256"):
+    if algorithm in (
+        "RS256",
+        "RS384",
+        "RS512",
+        "ES256",
+        "ES256K",
+        "ES384",
+        "ES512",
+        "PS256",
+        "PS384",
+        "PS512",
+    ):
         assert public_key or public_key_file
 
         if public_key:
