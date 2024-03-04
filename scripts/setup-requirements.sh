@@ -6,14 +6,13 @@
 
 source .venv/bin/activate
 
-# this is expected to be called from the Makefile, hence the $2 and not $1
-case $2 in
-    (dev)
+case "$1" in
+    ("dev")
         uv pip compile -o requirements-dev.txt --extra=dev pyproject.toml
         uv pip install --requirement requirements-dev.txt
         rm requirements-dev.txt
         ;;
-    (test)
+    ("test")
         uv pip compile -o requirements-test.txt --extra=test pyproject.toml
         uv pip install --requirement requirements-test.txt
         rm requirements-test.txt

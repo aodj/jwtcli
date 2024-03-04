@@ -35,7 +35,7 @@ jobs:
         run: |
           make setup-ci
           make setup-requirements
-          make setup-requirements test
+          make setup-test-requirements
       - name: Activate virtualenv
         run: |
           . .venv/bin/activate

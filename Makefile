@@ -8,7 +8,12 @@ help:
 
 .DEFAULT_GOAL := help
 SHELL := /bin/bash
-APP_NAME=jwt
+
+BATS_TARGET := *.bats
+ifneq ($(filter-out setup setup-ci setup-requirements setup-pre-commit format template-bats test bats,$(MAKECMDGOALS)), )
+BATS_TARGET := $(filter-out setup setup-ci setup-requirements setup-pre-commit format template-bats test bats,$(MAKECMDGOALS)).bats
+endif
+
 
 setup: ## Setup uv, bats, and venv
 	brew install uv bats-core
@@ -16,37 +21,48 @@ setup: ## Setup uv, bats, and venv
 	brew install bats-assert
 	uv venv --seed
 
+
 setup-ci: ## Setup, but for CI
 	curl -LsSf https://astral.sh/uv/install.sh | sh
 	uv venv --seed
 
+
 setup-requirements: ## Install requirements for the project
-	./scripts/setup-requirements.sh $(filter-out steup-requirements,$(MAKECMDGOALS))
+	./scripts/setup-requirements.sh
+
+
+setup-dev-requirements: ## Install dev requirements for the project
+	./scripts/setup-requirements.sh dev
+
+
+setup-test-requirements: ## Install test requirements for the project
+	./scripts/setup-requirements.sh test
+
 
 setup-pre-commit: ## Setup pre-commit and hooks
 	./scripts/setup-pre-commit.sh
 
+
 format: ## Format the code
 	ruff format src/ tests/
+
 
 template-bats: ## Render the bats templates
 	@./scripts/clean-bats.sh
 	python tests/bats/build.py
 
+
 test: template-bats ## Run tests
 	pytest -vv --capture=no
 	bats tests/bats/
 
-BATS_TARGET := *.bats
-ifneq ($(filter-out setup setup-requirements setup-pre-commit format template-bats test bats,$(MAKECMDGOALS)), )
-BATS_TARGET := $(filter-out setup setup-requirements setup-pre-commit format template-bats test bats,$(MAKECMDGOALS)).bats
-endif
 
 # run all bats tests using 'make bats'
 # or a specific group using the group name 'make bats encode-using-secret'
 # group names are given in tests/bats/usecases.yaml
 bats: template-bats ## Run specific group of or all bats tests
 	bats tests/bats/$(BATS_TARGET)
+
 
 %:
 	@:
