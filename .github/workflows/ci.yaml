@@ -13,9 +13,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  ci:
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         python-version:
           - '3.12'
@@ -34,6 +34,6 @@ jobs:
       - name: Setup
         run: |
           make setup-ci
-      - name: Run test
+      - name: Run tests
         run: |
           make test
