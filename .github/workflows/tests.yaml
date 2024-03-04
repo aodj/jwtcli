@@ -32,8 +32,10 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Linux & Mac setup
+      - name: Setup
         run: |
           make setup-ci
           make setup-requirements
+      - name: Run test
+        run: |
           make test
