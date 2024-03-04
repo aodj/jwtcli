@@ -35,6 +35,7 @@ jobs:
         run: |
           make setup-ci
           make setup-requirements
+          make setup-requirements test
       - name: Run test
         run: |
           make test

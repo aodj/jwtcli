@@ -21,7 +21,7 @@ setup-ci: ## Setup, but for CI
 	uv venv --seed
 
 setup-requirements: ## Install requirements for the project
-	./scripts/setup-requirements.sh
+	./scripts/setup-requirements.sh $(filter-out steup-requirements,$(MAKECMDGOALS))
 
 setup-pre-commit: ## Setup pre-commit and hooks
 	./scripts/setup-pre-commit.sh
