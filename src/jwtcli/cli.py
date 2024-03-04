@@ -4,7 +4,7 @@ from cryptography.hazmat.primitives.serialization import (
     load_pem_private_key,
     load_pem_public_key,
 )
-from typing import TextIO
+from typing import Optional, TextIO
 
 import click
 from click_default_group import DefaultGroup
@@ -77,7 +77,7 @@ def encode(
     as_header: bool,
     private_key: str,
     private_key_file: TextIO,
-    password: str | None,
+    password: Optional[str],
 ):
     if algorithm.lower() in key_based_algorithms:
         # need to ensure we have the necessary arguments
