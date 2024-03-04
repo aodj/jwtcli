@@ -36,6 +36,10 @@ jobs:
           make setup-ci
           make setup-requirements
           make setup-requirements test
+      - name: Activate virtualenv
+        run: |
+          . .venv/bin/activate
+          echo PATH=$PATH >> $GITHUB_ENV
       - name: Run test
         run: |
           make test
