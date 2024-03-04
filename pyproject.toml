@@ -10,7 +10,7 @@ classifiers = ["License :: OSI Approved :: MIT License"]
 description = "foo"
 dynamic = ["version"]
 dependencies = [
-    "pyjwt==2.8.0",
+    "pyjwt[crypto]==2.8.0",
     "click==8.1.7",
     "click-default-group==1.2.4"
 ]
