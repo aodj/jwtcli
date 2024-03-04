@@ -24,7 +24,7 @@ setup: ## Setup uv, bats, and venv
 
 setup-ci: ## Setup, but for CI
 	curl -LsSf https://astral.sh/uv/install.sh | sh
-	uv venv --seed
+	uv pip install --system --upgrade --editable .[test]
 
 
 setup-requirements: ## Install requirements for the project
