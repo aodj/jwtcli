@@ -16,6 +16,10 @@ setup: ## Setup uv, bats, and venv
 	brew install bats-assert
 	uv venv --seed
 
+setup-ci: ## Setup, but for CI
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+	uv venv --seed
+
 setup-requirements: ## Install requirements for the project
 	./scripts/setup-requirements.sh
 
