@@ -27,7 +27,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup Bats and bats libs
-        uses: bats-core/bats-action@1.5.4
+        uses: bats-core/bats-action@1.5.6
+        with:
+           support-path: /usr/local/lib/bats-support
+           assert-path: /usr/local/lib/bats-assert
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
