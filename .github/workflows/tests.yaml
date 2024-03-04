@@ -5,7 +5,7 @@ concurrency:
 on:
   push:
     branches:
-      - **
+      - develop
     paths:
       - src/**/*.py
       - tests/**/*.py
